@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="lib/sesame-model-2.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-query-2.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-queryalgebra-evaluation-2.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-queryalgebra-model-2.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-repository-api-2.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-repository-sail-2.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-api-2.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-rdfxml-2.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-sail-api-2.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-sail-inferencer-2.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-sail-memory-2.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-util-2.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

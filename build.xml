@@ -1,0 +1,118 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+
+<project name = "NCBO Health Data Tools" default = "usage" basedir = ".">    
+   <property environment="env"/>  
+   <property file="downloader.properties"/>
+   <property file="updater.properties"/>
+   <property file="ds_metadata_updater.properties"/>
+
+   <property name = "src"             location = "./src"/>  
+   <property name = "build"           location = "./build"/>
+   <property name = "classes"         location = "${build}/classes"/>   
+   <property name = "lib"             location = "./lib"/>
+   <property name = "app.jar.name"    value = "ncbo_healthdata_tools.jar"/>
+	
+    <!-- =================================================================== -->
+    <!-- USAGE -->
+    <!-- Instructions for using the build file -->
+    <!-- =================================================================== -->
+    <target name = "usage">
+        <echo message = ""/>
+        <echo message = "NCBO Health Data Tools build instructions"/>
+        <echo message = "-------------------------------------------------------------"/>
+        <echo message = ""/>
+        <echo message = " Available targets are:"/>
+        <echo message = ""/>
+        <echo message = "   usage                    --> provides help on using the build tool (default)"/>
+        <echo message = "   clean                    --> cleans up all build related files and dirs"/>
+        <echo message = "   compile                  --> compiles the source code"/>       
+        <echo message = "   run_downloader           --> runs the Downloader tool"/>
+        <echo message = "   run_updater              --> runs the Updater tool"/>
+        <echo message = "   run_ds_metadata_updater  --> runs the Dataset Metadata Updater tool"/>
+        <echo message = ""/>
+        <echo message = " Before executing the run targets, make sure that you set the arguments for the tools"/>
+        <echo message = " in the corresponding properties file."/>
+        <echo message = "-------------------------------------------------------------"/>
+        <echo message = ""/>
+    </target>
+   
+   <target name = "init">
+     <tstamp>
+       <format property="build.time" pattern="MM/dd/yyyy hh:mm aa"/>
+     </tstamp>
+     <mkdir dir = "${build}"/>
+     <mkdir dir = "${classes}"/>
+     <path id = "compile.classpath"> 
+         <fileset dir="${lib}">
+                <include name="**/*.jar"/>
+         </fileset>
+     </path>
+   </target>  
+
+   <target name = "compile" depends = "init">
+     <javac srcdir = "${src}"
+            destdir = "${classes}" 
+            debug="on"
+            includeAntRuntime="false">
+       <classpath refid = "compile.classpath"/>	   
+     </javac>
+     <copy todir="${classes}">
+       <fileset dir="${src}">
+         <include name="**/*"/>
+         <exclude name="**/*.java"/>      
+       </fileset>
+     </copy>
+   </target>
+
+   <target name = "jar" depends = "compile">     
+     <jar jarfile = "${build}/${app.jar.name}" 
+          basedir = "${classes}" />
+   </target>
+   
+   <target name = "clean">
+     <delete dir = "${build}"/>
+   </target>
+   
+   <target name="run_downloader" depends="jar">
+       		<mkdir dir="${downloader.metadata.files.dir}" />
+	        <java fork="true" dir="." classname="org.healthdata.metadata.Downloader">
+		    	<classpath>
+		        	<pathelement path="${build}/${app.jar.name}"/>
+		        	<fileset dir="${lib}">
+                		<include name="**/*.jar"/>
+         			</fileset>
+		    	</classpath>	        	
+	 			<arg value="${downloader.metadata.files.dir}"/>			
+	        </java>
+	</target>
+	
+    <target name="run_updater" depends="jar">
+       		<mkdir dir="${updater.new.metadata.dir}" />
+	        <java fork="true" dir="." classname="org.healthdata.metadata.Updater">
+			    <classpath>
+			        <pathelement path="${build}/${app.jar.name}"/>
+			        <fileset dir="${lib}">
+            	    	<include name="**/*.jar"/>
+         			</fileset>
+		    	</classpath>	        	
+	 			<arg value="${updater.old.metadata.dir}"/>
+	 			<arg value="${updater.new.metadata.dir}"/>
+	 			<arg value="${updater.config.file}"/>
+	        </java>
+	</target>
+	
+    <target name="run_ds_metadata_updater" depends="jar">       		
+	        <java fork="true" dir="." classname="org.healthdata.metadata.DatasetMetadataUpdater">
+			    <classpath>
+			        <pathelement path="${build}/${app.jar.name}"/>
+			        <fileset dir="${lib}">
+            	    	<include name="**/*.jar"/>
+         			</fileset>
+		    	</classpath>	        	
+	 			<arg value="${ds_metadata_updater.input.rdf}"/>
+	 			<arg value="${ds_metadata_updater.output.rdf}"/>
+	 			<arg value="${ds_metadata_updater.config.file}"/>
+	        </java>
+	</target>
+
+</project>
