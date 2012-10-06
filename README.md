@@ -1,0 +1,1 @@
+This project contains the Java code that accompanies the NCBO team's submission to the Healthdata.org Metadata Challenge.
