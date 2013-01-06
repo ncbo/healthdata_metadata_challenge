@@ -29,6 +29,9 @@
         <echo message = "   run_downloader           --> runs the Downloader tool"/>
         <echo message = "   run_updater              --> runs the Updater tool"/>
         <echo message = "   run_ds_metadata_updater  --> runs the Dataset Metadata Updater tool"/>
+        <echo message = "   run_vocabulary_generator  --> runs the Vocabulary Generator tool"/>
+        <echo message = "   run_owl_axiom_generator  --> runs the OWL Axiom Generator tool"/>
+        <echo message = "   run_concept_sheme_generator  --> runs the SKOS Concept Scheme Generator tool"/>
         <echo message = ""/>
         <echo message = " Before executing the run targets, make sure that you set the arguments for the tools"/>
         <echo message = " in the corresponding properties file."/>
@@ -112,6 +115,54 @@
 	 			<arg value="${ds_metadata_updater.input.rdf}"/>
 	 			<arg value="${ds_metadata_updater.output.rdf}"/>
 	 			<arg value="${ds_metadata_updater.config.file}"/>
+	        </java>
+	</target>
+	
+    <target name="run_vocabulary_generator" depends="jar">       		
+	        <java fork="true" dir="." classname="org.healthdata.metadata.vocabulary.VocabularyGenerator">
+			    <classpath>
+			        <pathelement path="${build}/${app.jar.name}"/>
+			        <fileset dir="${lib}">
+            	    	<include name="**/*.jar"/>
+         			</fileset>
+		    	</classpath>	        	
+				<arg value="${vocabulary_generator.input.separator.option}"/>
+				<arg value="${vocabulary_generator.ignore.lines.option}"/>
+				<arg value="${vocabulary_generator.ontology.id.option}"/>
+				<arg value="${vocabulary_generator.input.csv}"/>
+				<arg value="${vocabulary_generator.output.csv}"/>
+	        </java>
+	</target>
+	
+    <target name="run_owl_axiom_generator" depends="jar">       		
+	        <java fork="true" dir="." classname="org.healthdata.metadata.vocabulary.OWLAxiomGenerator">
+			    <classpath>
+			        <pathelement path="${build}/${app.jar.name}"/>
+			        <fileset dir="${lib}">
+            	    	<include name="**/*.jar"/>
+         			</fileset>
+		    	</classpath>	        	
+				<arg value="${owl_axiom_generator.input.separator.option}"/>
+				<arg value="${owl_axiom_generator.ignore.lines.option}"/>
+				<arg value="${owl_axiom_generator.input.csv}"/>
+				<arg value="${owl_axiom_generator.template.file}"/>
+				<arg value="${owl_axiom_generator.output.owl}"/>
+	        </java>
+	</target>
+	
+    <target name="run_concept_sheme_generator" depends="jar">       		
+	        <java fork="true" dir="." classname="org.healthdata.metadata.vocabulary.ConceptSchemeGenerator">
+			    <classpath>
+			        <pathelement path="${build}/${app.jar.name}"/>
+			        <fileset dir="${lib}">
+            	    	<include name="**/*.jar"/>
+         			</fileset>
+		    	</classpath>	        	
+				<arg value="${concept_sheme_generator.input.filter.option}"/>
+				<arg value="${concept_sheme_generator.input.owl}"/>
+				<arg value="${concept_sheme_generator.class.name}"/>
+				<arg value="${concept_sheme_generator.output.owl}"/>
+				<arg value="${concept_sheme_generator.concept_scheme.name}"/>
 	        </java>
 	</target>
 
